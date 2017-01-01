@@ -11,5 +11,4 @@
 
 然后执行 python ClearManifest.py
 
-得到 output.xml 就是清理后的文件
-
+得到的 AndroidManifest.xml 就是清理后的文件（ AndroidManifest_backup.xml 为备份）
