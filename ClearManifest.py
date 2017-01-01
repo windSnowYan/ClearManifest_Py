@@ -8,6 +8,7 @@ Created on 2017年1月1日
 
 import xml.etree.ElementTree as ET
 import sys
+import shutil
 
 class PCParser(ET.XMLTreeBuilder):
     def __init__(self):
@@ -20,6 +21,9 @@ class PCParser(ET.XMLTreeBuilder):
         self._target.data(data)
         self._target.end(ET.Comment)
 
+# 备份源文件
+shutil.copy("AndroidManifest.xml", "AndroidManifest_backup.xml")
+
 try:
     # 定义namespace，这一步必须在parse之前做
     ET.register_namespace('android', "http://schemas.android.com/apk/res/android")
@@ -28,8 +32,6 @@ try:
     parser = PCParser()
     tree = ET.parse("AndroidManifest.xml",parser)     #打开xml文档 
     root = tree.getroot()         #获得root节点  
-    
-    
 except Exception, e: 
     print "Error:cannot parse file:country.xml."
     sys.exit(1) 
@@ -54,5 +56,5 @@ for element in root.findall('uses-permission'):
     
 print('----- clear done -----')
 
-tree.write('output.xml',encoding="utf-8", xml_declaration=True,  method='xml')
+tree.write('AndroidManifest.xml',encoding="utf-8", xml_declaration=True,  method='xml')
 
