@@ -9,13 +9,27 @@ Created on 2017年1月1日
 import xml.etree.ElementTree as ET
 import sys
 
+class PCParser(ET.XMLTreeBuilder):
+    def __init__(self):
+        ET.XMLTreeBuilder.__init__(self)
+        # assumes ElementTree 1.2.X
+        self._parser.CommentHandler = self.handle_comment
+
+    def handle_comment(self, data):
+        self._target.start(ET.Comment, {})
+        self._target.data(data)
+        self._target.end(ET.Comment)
+
 try:
     # 定义namespace，这一步必须在parse之前做
     ET.register_namespace('android', "http://schemas.android.com/apk/res/android")
     ET.register_namespace('tools', "http://schemas.android.com/tools")
     ET.register_namespace('app', "http://schemas.android.com/apk/res-auto")
-    tree = ET.parse("AndroidManifest.xml")     #打开xml文档 
+    parser = PCParser()
+    tree = ET.parse("AndroidManifest.xml",parser)     #打开xml文档 
     root = tree.getroot()         #获得root节点  
+    
+    
 except Exception, e: 
     print "Error:cannot parse file:country.xml."
     sys.exit(1) 
