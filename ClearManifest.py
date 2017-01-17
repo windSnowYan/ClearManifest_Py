@@ -33,7 +33,8 @@ try:
     tree = ET.parse("AndroidManifest.xml",parser)     #打开xml文档 
     root = tree.getroot()         #获得root节点  
 except Exception, e: 
-    print "Error:cannot parse file:country.xml."
+    print "Error:cannot parse file:AndroidManifest.xml."
+    print e 
     sys.exit(1) 
 
 
